@@ -327,6 +327,10 @@ function getGuestsSeedStorageKey(eventId) {
   return "migrate.invitados.seeded." + resolveEventId(eventId);
 }
 
+function getGuestsSyncStorageKey(eventId) {
+  return "sync.invitados.once." + resolveEventId(eventId);
+}
+
 function getEventConfigSeedStorageKey(eventId) {
   return "migrate.event-config.seeded." + resolveEventId(eventId);
 }
@@ -1002,6 +1006,99 @@ async function migrateLocalGuestsToFirebase(arg1, arg2, arg3) {
   };
 }
 
+async function syncGuestConfigToEventOnce(arg1, arg2, arg3) {
+  const parsed = parseGuestMigrationArgs(arg1, arg2, arg3);
+  const eventId = resolveEventId(parsed.eventId);
+  const options = parsed.options || {};
+  const force = Boolean(options.force);
+  const dryRun = Boolean(options.dryRun);
+  const storageKey = getGuestsSyncStorageKey(eventId);
+
+  const alreadySyncedAt = readLocalStorage(storageKey);
+
+  const sourceInfo = resolveLocalGuestsSource(eventId, parsed.localSource);
+  const guests = normalizeLocalGuestsSource(sourceInfo.source);
+
+  if (guests.length === 0) {
+    return {
+      ok: false,
+      skipped: true,
+      reason: "no-local-guests-found",
+      eventId,
+      source: sourceInfo.sourceLabel
+    };
+  }
+
+  const currentGuests = await getInvitados(eventId);
+  const existingIds = new Set(
+    (Array.isArray(currentGuests) ? currentGuests : []).map(function (guest) {
+      return sanitizeFirebaseKey(guest && (guest.id || guest._key));
+    }).filter(Boolean)
+  );
+
+  const guestsToInsert = guests.filter(function (guest) {
+    const safeGuestId = sanitizeFirebaseKey(guest && guest.id);
+    return safeGuestId && !existingIds.has(safeGuestId);
+  });
+
+  if (!dryRun && guestsToInsert.length > 0) {
+    await Promise.all(
+      guestsToInsert.map(function (guest) {
+        const safeGuestId = sanitizeFirebaseKey(guest.id);
+        const idText = String(guest.id || "").trim();
+        const idValue = /^\d+$/.test(idText) ? Number(idText) : idText;
+        return set(ref(db, getEventInvitadosPath(eventId) + "/" + safeGuestId), {
+          id: idValue,
+          nombre: String(guest.nombre || "").trim(),
+          pases: Math.max(1, Number(guest.pases) || 1),
+          activo: typeof guest.activo === "undefined" ? true : Boolean(guest.activo)
+        });
+      })
+    );
+  }
+
+  if (!dryRun) {
+    writeLocalStorage(storageKey, new Date().toISOString());
+  }
+
+  return {
+    ok: true,
+    skipped: false,
+    dryRun,
+    forced: force,
+    eventId,
+    source: sourceInfo.sourceLabel,
+    previouslySyncedAt: alreadySyncedAt || null,
+    totalLocal: guests.length,
+    totalExisting: existingIds.size,
+    inserted: guestsToInsert.length,
+    insertedGuestIds: guestsToInsert.map(function (guest) {
+      return String(guest.id);
+    })
+  };
+}
+
+async function autoSyncGuestConfigToFirebase() {
+  try {
+    const hasLocalGuestConfig = Boolean(
+      window
+      && window.GuestConfig
+      && window.GuestConfig.invitados
+      && typeof window.GuestConfig.invitados === "object"
+    );
+
+    if (!hasLocalGuestConfig) {
+      return { ok: true, skipped: true, reason: "no-local-guest-config" };
+    }
+
+    const eventId = resolveEventId();
+    return await syncGuestConfigToEventOnce(eventId);
+  } catch (error) {
+    console.warn("No se pudo sincronizar invitados locales automaticamente:", error);
+    return { ok: false, skipped: true, reason: "auto-sync-error", error };
+  }
+}
+
 function clearGuestsMigrationMark(eventId) {
   const storageKey = getGuestsSeedStorageKey(eventId);
   removeLocalStorage(storageKey);
@@ -1431,6 +1528,8 @@ window.RSVPDatabase = {
   updateInvitado,
   deleteInvitado,
   migrateLocalGuestsToFirebase,
+  syncGuestConfigToEventOnce,
+  autoSyncGuestConfigToFirebase,
   clearGuestsMigrationMark,
   seedEventConfigToFirebase,
   seedEventData,
@@ -1442,6 +1541,8 @@ window.RSVPDatabase = {
 };
 
 window.migrateLocalGuestsToFirebase = migrateLocalGuestsToFirebase;
+window.syncGuestConfigToEventOnce = syncGuestConfigToEventOnce;
+window.autoSyncGuestConfigToFirebase = autoSyncGuestConfigToFirebase;
 window.clearGuestsMigrationMark = clearGuestsMigrationMark;
 window.seedEventConfigToFirebase = seedEventConfigToFirebase;
 window.seedEventData = seedEventData;
@@ -1474,6 +1575,8 @@ export {
   updateInvitado,
   deleteInvitado,
   migrateLocalGuestsToFirebase,
+  syncGuestConfigToEventOnce,
+  autoSyncGuestConfigToFirebase,
   clearGuestsMigrationMark,
   seedEventConfigToFirebase,
   seedEventData,
@@ -1610,6 +1713,8 @@ window.submitWish = async function submitWish(event) {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  autoSyncGuestConfigToFirebase();
+
   const { wishesContainer } = getUI();
   if (!wishesContainer) return;
   const activeEventId = resolveEventId();

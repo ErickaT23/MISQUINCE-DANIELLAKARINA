@@ -245,41 +245,10 @@ function applyFooterConfig() {
 // ============================================
 // CONFIGURACIÓN - Editar aquí los invitados
 // ============================================
-const GuestConfig = {
-    invitados: {
-        "1": { nombre: "Diana Coloma", pases: 1 },
-        "2": { nombre: "Fátima Lopez", pases: 1 },
-        "3": { nombre: "Antonella Rizzo", pases: 1 },
-        "4": { nombre: "Adriana Castellanos", pases: 1 },
-        "5": { nombre: "Emma Ton", pases: 1 },
-        "6": { nombre: "Inés Juárez", pases: 1 },
-        "7": { nombre: "Paula Garcia", pases: 1 },
-        "8": { nombre: "Melissa Mc Farland", pases: 1 },
-        "9": { nombre: "Jannesa Lopez", pases: 1 },
-        "10": { nombre: "Brenda Rivera", pases: 1 },
-        "11": { nombre: "Cecilia Tanchez", pases: 1 },
-        "12": { nombre: "Sahily Castañeda", pases: 1 },
-        "13": { nombre: "Sophia Lambourgh", pases: 1 },
-        "14": { nombre: "Abbie Estrada", pases: 1 },
-        "15": { nombre: "Paula Lone", pases: 1 },
-        "16": { nombre: "Roberto Castro", pases: 1 },
-        "17": { nombre: "Guillermo Bojórquez", pases: 1 },
-        "18": { nombre: "Fernando Mendoza", pases: 1 },
-        "19": { nombre: "Ignacio Valdez", pases: 1 },
-        "20": { nombre: "Anderson Villagran", pases: 1 },
-        "21": { nombre: "Ian Gamarro", pases: 1 },
-        "22": { nombre: "Eliseo Azurdia", pases: 1 },
-        "23": { nombre: "José Fernando Diaz", pases: 1 },
-        "24": { nombre: "José Pablo Chojolan", pases: 1 },
-        "25": { nombre: "Rodrigo Guerra", pases: 1 },
-        "26": { nombre: "Mathew Figueroa", pases: 1 },
-        "27": { nombre: "Nicolás Pérez", pases: 1 },
-        "28": { nombre: "Nicolás Rivera", pases: 1 },
-        "29": { nombre: "Herbert Marroquin", pases: 1 },
-        "30": { nombre: "Ximena Aristondo", pases: 1 }
-    },
+const GuestConfig = window.GuestConfig || {
+    invitados: {},
     invitadoDefault: { nombre: "Invitado Especial", pases: 1 },
-    paramId: 'id'
+    paramId: "id"
 };
 
 window.GuestConfig = GuestConfig;

@@ -9,7 +9,7 @@ const guestDirectorySeed = {
 };
 
 const guestDirectoriesByEvent = {
-    "misxv-ana-maria-2026": guestDirectorySeed
+    "misxv-daniella-mazariegos-2026": guestDirectorySeed
 };
 
 window.LocalGuestSeeds = {
@@ -23,7 +23,7 @@ function resolveDashboardEventContext() {
     const externalConfig = window.config || {};
     const eventConfig = externalConfig.event || {};
     const eventIdParam = String(eventConfig.eventIdParam || "eventId").trim() || "eventId";
-    const defaultEventId = String(eventConfig.defaultEventId || "misxv-ana-maria-2026").trim() || "misxv-ana-maria-2026";
+    const defaultEventId = String(eventConfig.defaultEventId || "misxv-daniella-mazariegos-2026").trim() || "misxv-daniella-mazariegos-2026";
     const params = new URLSearchParams(window.location.search || "");
     const fromQuery = String(params.get(eventIdParam) || "").trim();
     const fromWindow = String(
@@ -444,6 +444,19 @@ function renderTable(rows, emptyMessage) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    const externalConfig = window.config || {};
+    const parejaConfig = externalConfig.pareja || {};
+    const parejaNombre = String(parejaConfig.nombres || "").trim();
+
+    if (parejaNombre) {
+        document.title = "Dashboard RSVP | " + parejaNombre;
+    }
+
+    const subtitleEl = document.querySelector(".dashboard-subtitle");
+    if (subtitleEl && parejaNombre) {
+        subtitleEl.textContent = parejaNombre;
+    }
+
     const eventContext = resolveDashboardEventContext();
     const activeEventId = eventContext.eventId;
     const eventBadge = document.getElementById("dashboard-event-current");

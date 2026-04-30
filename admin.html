@@ -95,6 +95,42 @@
             line-height: 1.2;
         }
 
+        .sync-indicator {
+            margin: 0.55rem auto 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.38rem;
+            padding: 0.24rem 0.62rem;
+            border-radius: 999px;
+            border: 1px solid #d8ecef;
+            background: #eff9fb;
+            color: #055a6b;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .sync-indicator-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: #0f8ea5;
+            box-shadow: 0 0 0 3px rgba(15, 142, 165, 0.16);
+            animation: syncDotPulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes syncDotPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.75;
+            }
+        }
+
         .metrics {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1046,6 +1082,7 @@
             <header class="header">
                 <h1 class="title">Panel Administrador RSVP</h1>
                 <p class="subtitle">Evento activo: <strong id="active-event-id">--</strong></p>
+                <p class="sync-indicator" id="sync-indicator"><span class="sync-indicator-dot" aria-hidden="true"></span><span id="sync-indicator-text">Sincronización en tiempo real activa</span></p>
             </header>
 
             <div class="metrics">
@@ -1141,6 +1178,7 @@
     </div>
 
     <script src="config.js"></script>
+    <script src="guest-config.js"></script>
     <script type="module" src="database.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>

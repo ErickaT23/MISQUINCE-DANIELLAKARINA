@@ -90,8 +90,7 @@ body {
         conic-gradient(from 160deg, rgba(87, 222, 239, 0.28), rgba(255, 211, 244, 0.24), rgba(124, 214, 255, 0.28), rgba(153, 248, 228, 0.24), rgba(87, 222, 239, 0.28));
     border: 1px solid rgba(180, 238, 247, 0.56);
     mix-blend-mode: screen;
-    filter: blur(0.1px) saturate(1.2);
-    box-shadow: 0 0 18px rgba(134, 235, 246, 0.26), 0 0 36px rgba(198, 232, 255, 0.18);
+    filter: blur(0.2px);
     animation: bubbleRise linear infinite;
 }
 
@@ -115,12 +114,6 @@ body {
 .ocean-bubbles .b10 { left: 83%; width: 22px; height: 22px; animation-duration: 14s; animation-delay: -4s; }
 .ocean-bubbles .b11 { left: 90%; width: 44px; height: 44px; animation-duration: 25s; animation-delay: -15s; }
 .ocean-bubbles .b12 { left: 96%; width: 16px; height: 16px; animation-duration: 12s; animation-delay: -1s; }
-.ocean-bubbles .b13 { left: 8%; width: 30px; height: 30px; animation-duration: 18s; animation-delay: -13s; }
-.ocean-bubbles .b14 { left: 26%; width: 20px; height: 20px; animation-duration: 13s; animation-delay: -10s; }
-.ocean-bubbles .b15 { left: 45%; width: 48px; height: 48px; animation-duration: 26s; animation-delay: -16s; }
-.ocean-bubbles .b16 { left: 62%; width: 24px; height: 24px; animation-duration: 15s; animation-delay: -2s; }
-.ocean-bubbles .b17 { left: 79%; width: 36px; height: 36px; animation-duration: 22s; animation-delay: -14s; }
-.ocean-bubbles .b18 { left: 93%; width: 28px; height: 28px; animation-duration: 17s; animation-delay: -6s; }
 
 @keyframes bubbleRise {
     0% {
@@ -128,14 +121,14 @@ body {
         opacity: 0;
     }
     12% {
-        opacity: 0.68;
+        opacity: 0.5;
     }
     50% {
         transform: translate3d(18px, -52vh, 0) scale(1.03);
-        opacity: 0.76;
+        opacity: 0.58;
     }
     85% {
-        opacity: 0.6;
+        opacity: 0.42;
     }
     100% {
         transform: translate3d(-16px, -112vh, 0) scale(1.1);
@@ -1288,7 +1281,7 @@ a {
     -webkit-background-clip: text;
     color: transparent;
     animation: foilShine 10s cubic-bezier(.4, 0, .2, 1) infinite alternate;
-}#
+}
 
 .gift-modal-data,
 .gift-copy-feedback {
@@ -1505,8 +1498,8 @@ a {
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    background: rgba(255, 252, 247, 0.14);
-    border: 1px solid #044a58;
+    background: rgba(4, 74, 88, 0.22);
+    border: 1px solid rgba(4, 74, 88, 0.78);
     border-radius: 999px;
     padding: 9px 14px;
     color: #044a58;
@@ -1547,16 +1540,6 @@ a {
     stroke-width: 1.7;
     stroke-linecap: round;
     stroke-linejoin: round;
-}
-
-.scroll-hint-text {
-    color: #044a58;
-}
-
-.scroll-hint-hand,
-.scroll-hint-icon {
-    color: #044a58;
-    stroke: #044a58;
 }
 
 @keyframes hintPulse {

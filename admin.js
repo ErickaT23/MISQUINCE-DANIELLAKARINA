@@ -89,6 +89,61 @@
         statusEl.style.color = isError ? "#8b1e1e" : "#6c6161";
     }
 
+    function setSyncIndicator(message, isError) {
+        const syncIndicatorEl = getEl("sync-indicator");
+        const syncIndicatorTextEl = getEl("sync-indicator-text");
+        if (!syncIndicatorEl || !syncIndicatorTextEl) return;
+
+        syncIndicatorTextEl.textContent = String(message || "Sincronización en tiempo real activa");
+
+        if (isError) {
+            syncIndicatorEl.style.borderColor = "#f0c2c2";
+            syncIndicatorEl.style.background = "#fff3f3";
+            syncIndicatorEl.style.color = "#8b1e1e";
+            return;
+        }
+
+        syncIndicatorEl.style.borderColor = "#d8ecef";
+        syncIndicatorEl.style.background = "#eff9fb";
+        syncIndicatorEl.style.color = "#055a6b";
+    }
+
+    async function runAutoGuestsSync(db) {
+        if (!db || typeof db.autoSyncGuestConfigToFirebase !== "function") {
+            setSyncIndicator("Sincronización en tiempo real activa", false);
+            return;
+        }
+
+        try {
+            const result = await db.autoSyncGuestConfigToFirebase();
+
+            if (!result || result.ok === false) {
+                setSyncIndicator("Sincronización automática no disponible", true);
+                return;
+            }
+
+            if (result.reason === "already-synced") {
+                setSyncIndicator("Lista de invitados ya sincronizada", false);
+                return;
+            }
+
+            if (result.reason === "no-local-guest-config") {
+                setSyncIndicator("Sincronización en tiempo real activa", false);
+                return;
+            }
+
+            const inserted = Number(result.inserted) || 0;
+            if (inserted > 0) {
+                setSyncIndicator("Invitados sincronizados: " + inserted, false);
+            } else {
+                setSyncIndicator("Sincronización completa, sin nuevos invitados", false);
+            }
+        } catch (error) {
+            console.error("Error al sincronizar invitados automaticamente:", error);
+            setSyncIndicator("Error en sincronización automática", true);
+        }
+    }
+
     function setInviteFormMessage(message, isError) {
         const msgEl = getEl("invite-form-msg");
         if (!msgEl) return;
@@ -1375,10 +1430,12 @@
             }
 
             state.db = db;
+            await runAutoGuestsSync(db);
             subscribeData(db);
         } catch (error) {
             console.error(error);
             setStatus("No se pudo inicializar el panel.", true);
+            setSyncIndicator("Sincronización no disponible", true);
         }
     }
 
