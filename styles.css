@@ -11,8 +11,8 @@
     --card: rgba(255, 255, 255, 0.7);
     --white: #fff;
     --title: "Cinzel", serif;
-    --cursive: "Pinyon Script", cursive;
-    --text: "Playfair Display", serif;
+    --cursive: "Great Vibes", cursive;
+    --text: "Lora", serif;
     --sans: "Cinzel", serif;
     --title-ocean-gradient: linear-gradient(120deg, #06778b 0%, #16879b 28%, #7dc7d3 50%, #1a8da2 72%, #06778b 100%);
     --section-space: clamp(52px, 8.5vh, 90px);
@@ -70,6 +70,7 @@ body {
     background: var(--bg);
     color: var(--ink);
     font-family: var(--text);
+    font-style: italic;
 }
 
 .ocean-bubbles {
@@ -316,7 +317,7 @@ a {
 .hero-open-name {
     margin: 2px 0 4px;
     font-family: var(--cursive);
-    font-size: clamp(2.5rem, 11vw, 4.7rem);
+    font-size: 55px;
     line-height: .95;
     letter-spacing: .01em;
     background: linear-gradient(120deg, #06778b 0%, #16879b 28%, #7dc7d3 50%, #1a8da2 72%, #06778b 100%);
@@ -327,7 +328,9 @@ a {
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 2px 10px rgba(6, 119, 139, 0.22));
     animation: heroTextShimmer 4.2s ease-in-out .35s infinite, portadaNombreZoom .8s cubic-bezier(.22, .61, .36, 1) .35s both;
-    padding: 7px;
+    padding: 10px;
+    font-weight: 400;
+    margin-top: -50px;
 }
 
 .hero-open-quote,
@@ -335,40 +338,31 @@ a {
     margin: 0;
     width: min(620px, 100%);
     text-align: center;
-    color: #f5f3ee;
+    color: #094a56;
     opacity: 0;
     transform: translateY(14px);
     animation: heroTextFadeUp .9s ease forwards;
     text-shadow: 0 2px 8px rgba(48, 68, 73, 0.26);
 }
 
-.hero-open-quote {
+.hero-open-quote, .hero-open-bible {
     font-family: var(--text);
-    font-size: clamp(1.04rem, 2.7vw, 1.34rem);
+    font-size: 14px;
     letter-spacing: .01em;
     filter: drop-shadow(0 0 7px rgba(245, 243, 238, 0.14));
-    animation: heroTextFadeUp .9s ease .68s forwards, heroPearlGlow 4.4s ease-in-out 1.2s infinite;
 }
 
-.hero-open-bible {
-    font-family: var(--title);
-    font-size: clamp(.78rem, 2.1vw, .96rem);
-    line-height: 1.8;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    background: linear-gradient(120deg, #06778b 0%, #16879b 28%, #7dc7d3 50%, #1a8da2 72%, #06778b 100%);
-    background-size: 220% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    filter: none;
-    animation: none;
-    text-shadow: none;
-    opacity: 1;
-    transform: none;
+.hero-open-quote{
     padding: 15px;
+    margin-top: -20px;
 }
+
+.hero-open-bible{
+    margin-top: -35px;
+    padding:20px;
+}
+
+
 
 @keyframes portadaSobreIn {
     from {
@@ -472,16 +466,23 @@ a {
 .btn-rsvp,
 .btn-wish-toggle,
 .btn-wish-submit {
-    border: 1px solid var(--rose-dark);
-    background: var(--white);
-    color: var(--rose-dark);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    border: 1px solid rgba(5, 90, 107, 0.76);
+    border-radius: 2px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.86));
+    color: #044b5a;
     font-family: var(--title);
-    letter-spacing: .12em;
+    font-style: normal;
+    letter-spacing: .09em;
     text-transform: uppercase;
-    font-size: .67rem;
-    padding: 11px 16px;
+    font-size: .62rem;
+    padding: 8px 12px;
     cursor: pointer;
-    transition: transform .25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow .25s cubic-bezier(0.22, 1, 0.36, 1), background-color .25s ease, color .25s ease;
+    transition: transform .25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow .25s cubic-bezier(0.22, 1, 0.36, 1), background .25s ease, color .25s ease, border-color .25s ease;
+    box-shadow: 0 5px 12px rgba(4, 74, 88, 0.12);
 }
 
 .portada-boton:hover,
@@ -492,9 +493,10 @@ a {
 .btn-rsvp:hover,
 .btn-wish-toggle:hover,
 .btn-wish-submit:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-    background: var(--rose-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 9px 18px rgba(4, 74, 88, 0.2);
+    border-color: rgba(4, 74, 88, 0.9);
+    background: linear-gradient(to bottom, #055a6b, #044a58);
     color: var(--white);
 }
 
@@ -570,7 +572,7 @@ a {
 .hero-monograma-img {
     width: clamp(98px, 20vw, 150px);
     filter: drop-shadow(0 12px 24px rgba(76, 108, 116, 0.26));
-    margin-top: -10px;
+    margin-top: -140px;
 }
 
 .hero-meta-hidden {
@@ -874,9 +876,9 @@ a {
 
 .countdown-section .btn-calendar {
     margin-top: 20px;
-    padding: 9px 14px;
+    padding: 7px 11px;
     font-size: .58rem;
-    letter-spacing: .1em;
+    letter-spacing: .08em;
     color: #f7f0e8;
     border-color: rgba(255, 255, 255, 0.66);
     background: rgba(255, 255, 255, 0.1);
@@ -1019,7 +1021,7 @@ a {
 
 .event-lugar {
     font-size: 1.45rem;
-    font-family: var(--title);
+    font-family: var(--text);
 }
 
 .btn-location,
@@ -1295,6 +1297,16 @@ a {
     display: grid;
     gap: 12px;
     text-align: left;
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+}
+
+.rsvp-label {
+    display: flex;
+    justify-content: center;
 }
 
 .rsvp-form.is-locked {
@@ -1330,7 +1342,8 @@ a {
 }
 
 .btn-rsvp {
-    width: 100%;
+    min-width: 170px;
+    justify-self: center;
 }
 
 .rsvp-final-container {
@@ -1395,8 +1408,8 @@ a {
 }
 
 .rsvp-icon {
-    width: 98px;
-    height: 98px;
+    width: 90px;
+    height: 90px;
     margin: 0 auto 10px;
 }
 
@@ -1439,6 +1452,7 @@ a {
     background: var(--white);
     color: var(--rose-dark);
     font-family: var(--title);
+    font-style: normal;
     text-transform: uppercase;
     letter-spacing: .1em;
     font-size: .65rem;
@@ -1469,8 +1483,8 @@ a {
 }
 
 #social-icons a {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1581,13 +1595,13 @@ a {
 }
 
 .music-fab-btn {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     border-radius: 999px;
     border: 1px solid var(--line);
     background: rgba(255, 255, 255, 0.94);
     color: var(--rose-dark);
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .music-fab-icon-off {
@@ -1759,12 +1773,12 @@ html.js-anim .section.visible :is(.event-icon, .rsvp-icon) {
 
     .countdown-section .countdown-number {
         min-width: 64px;
-        padding: 13px 8px;
+        padding: 5px;
         font-size: 1.45rem;
     }
 
     .countdown-section .btn-calendar {
-        padding: 8px 12px;
+        padding: 7px 10px;
         font-size: .55rem;
     }
 
@@ -1869,7 +1883,8 @@ html.js-anim .section.visible :is(.event-icon, .rsvp-icon) {
     .btn-rsvp,
     .btn-wish-toggle,
     .btn-wish-submit {
-        width: 100%;
+        width: fit-content;
+        max-width: 100%;
     }
 
     .wishes-buttons {
@@ -1946,9 +1961,8 @@ html.js-anim .section.visible :is(.event-icon, .rsvp-icon) {
 .countdown-ocean-and {
     margin: 0;
     font-family: var(--cursive);
-    font-size: clamp(2.2rem, 7.2vw, 3.6rem);
+    font-size: 34px;
     line-height: 0.95;
-    letter-spacing: 0.01em;
     text-transform: none;
     background: linear-gradient(120deg, #06778b 0%, #16879b 28%, #7dc7d3 50%, #1a8da2 72%, #06778b 100%);
     background-size: 220% auto;
@@ -1960,7 +1974,7 @@ html.js-anim .section.visible :is(.event-icon, .rsvp-icon) {
     filter: none;
     transform-origin: center center;
     animation: heroTextShimmer 4.2s ease-in-out .35s infinite, portadaNombreZoom .75s cubic-bezier(.22, .61, .36, 1) .82s forwards;
-    padding: 10px;
+    padding: 7px;
 }
 
 .countdown-ocean-and {
@@ -1981,6 +1995,7 @@ html.js-anim .section.visible :is(.event-icon, .rsvp-icon) {
     -webkit-text-fill-color: transparent;
     opacity: 1;
     animation: none;
+    font-style: normal;
 }
 
 .countdown-section-ocean .countdown {
@@ -2001,14 +2016,14 @@ html.js-anim .section.visible :is(.event-icon, .rsvp-icon) {
     height: clamp(74px, 18vw, 104px);
     border-radius: 50%;
     border: 1px solid rgba(6, 119, 139, 0.28);
-    background: rgba(255, 255, 255, 0.1);
+    background: #fff;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 1px;
     box-shadow: none;
     opacity: 1;
     animation: none;
@@ -2143,25 +2158,26 @@ html.js-anim .section.visible :is(.event-icon, .rsvp-icon) {
 #extras .event-links {
     margin-top: 10px;
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
 }
 
 #events .event-links .btn-location,
 #extras .event-links .btn-location {
-    min-width: 138px;
+    width: min(180px, 100%);
+    min-width: 0;
     border-radius: 999px;
     border-color: rgba(6, 119, 139, 0.34);
     color: #055a6b;
     background: rgba(255, 255, 255, 0.68);
-    box-shadow: none;
+    box-shadow: 0 5px 12px rgba(4, 74, 88, 0.12);
 }
 
 /* Ceremony / reception icons */
 #events .event-icon,
 #extras .event-icon {
-    width: clamp(160px, 28vw, 220px);
+    width: clamp(148px, 26vw, 200px);
     height: auto;
     margin: 0 auto 12px;
     padding: 0;
@@ -2216,17 +2232,21 @@ html.js-anim .section.visible :is(.event-icon, .rsvp-icon) {
 
 #wishes-section .wishes-buttons {
     margin-top: 10px;
-    gap: 10px;
+    gap: 8px;
+    flex-direction: column;
+    align-items: center;
 }
 
 #wishes-section .btn-wish-toggle,
 #wishes-section .btn-wish-submit {
-    min-width: 138px;
+    width: min(180px, 100%);
+    min-width: 0;
     border-radius: 999px;
-    border-color: rgba(6, 119, 139, 0.34);
-    color: #055a6b;
-    background: rgba(255, 255, 255, 0.68);
-    box-shadow: none;
+    border-color: rgba(5, 90, 107, 0.5);
+    color: #044b5a;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.94), rgba(247, 253, 255, 0.84));
+    box-shadow: 0 6px 14px rgba(4, 74, 88, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    font-style: normal;
 }
 
 #rsvp-section .rsvp-panel {
@@ -2258,9 +2278,11 @@ html.js-anim .section.visible :is(.event-icon, .rsvp-icon) {
 }
 
 #rsvp-section .rsvp-guest-data {
-    margin: 4px 0 14px;
-    font-family: var(--title);
-    font-size: clamp(1.1rem, 2.7vw, 1.34rem);
+    font-family: var(--cursive);
+    font-size: 35px;
+    padding: 10px;
+    margin-top: 17px;
+    margin-bottom: 17px;
 }
 
 #rsvp-section .rsvp-intro-confirm {
@@ -2268,54 +2290,57 @@ html.js-anim .section.visible :is(.event-icon, .rsvp-icon) {
 }
 
 #rsvp-section .btn-rsvp {
-    min-width: 138px;
+    min-width: 124px;
     border-radius: 999px;
-    border-color: rgba(6, 119, 139, 0.34);
-    color: #055a6b;
-    background: rgba(255, 255, 255, 0.68);
-    box-shadow: none;
+    border-color: rgba(5, 90, 107, 0.5);
+    color: #044b5a;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.94), rgba(247, 253, 255, 0.84));
+    box-shadow: 0 6px 14px rgba(4, 74, 88, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 /* Unified button style (same as Google Maps button) */
 .portada-boton,
 .btn-calendar,
 .btn-location,
+.btn-gift,
 .btn-media-share,
 .btn-rsvp,
 .btn-wish-toggle,
 .btn-wish-submit {
-    min-width: 138px;
+    min-width: 124px;
     border-radius: 999px;
-    border-color: rgba(6, 119, 139, 0.34);
-    color: #055a6b;
-    background: rgba(255, 255, 255, 0.68);
-    box-shadow: none;
+    border-color: rgba(5, 90, 107, 0.5);
+    color: #044b5a;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.94), rgba(247, 253, 255, 0.84));
+    box-shadow: 0 6px 14px rgba(4, 74, 88, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .portada-boton:hover,
 .btn-calendar:hover,
 .btn-location:hover,
+.btn-gift:hover,
 .btn-media-share:hover,
 .btn-rsvp:hover,
 .btn-wish-toggle:hover,
 .btn-wish-submit:hover {
-    background: #06778b;
-    border-color: #06778b;
+    background: linear-gradient(to bottom, #06778b, #055a6b);
+    border-color: #055a6b;
+    box-shadow: 0 10px 20px rgba(4, 74, 88, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.18);
     color: #fff;
 }
 
 /* Keep calendar button identical to Google Maps style */
 #countdown .btn-calendar,
 #countdown .btn-calendar.countdown-ocean-btn {
-    min-width: 138px;
+    min-width: 124px;
     border-radius: 999px;
-    border-color: rgba(6, 119, 139, 0.34);
-    color: #055a6b;
-    background: rgba(255, 255, 255, 0.68);
-    box-shadow: none;
-    padding: 11px 16px;
-    font-size: .67rem;
-    letter-spacing: .12em;
+    border-color: rgba(5, 90, 107, 0.5);
+    color: #044b5a;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.94), rgba(247, 253, 255, 0.84));
+    box-shadow: 0 6px 14px rgba(4, 74, 88, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    padding: 8px 12px;
+    font-size: .62rem;
+    letter-spacing: .09em;
 }
 
 #countdown .btn-calendar:hover,

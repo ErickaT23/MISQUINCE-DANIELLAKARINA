@@ -1,12 +1,18 @@
 document.documentElement.classList.add('js-anim');
 
 document.addEventListener('DOMContentLoaded', async function() {
-    await hydrateSiteConfigForEvent();
-    applySiteConfig();
-    await InvitadoApp.init();
-    MensajeFlota.init();
-    MusicaPlayer.init();
     initPortada();
+    MusicaPlayer.init();
+
+    try {
+        await hydrateSiteConfigForEvent();
+        applySiteConfig();
+        await InvitadoApp.init();
+    } catch (error) {
+        console.error('Error durante la inicialización principal:', error);
+    }
+
+    MensajeFlota.init();
     initScrollAnimations();
     initCountdown();
     initAutoGallery();
