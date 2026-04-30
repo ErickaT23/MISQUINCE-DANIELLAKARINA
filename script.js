@@ -54,11 +54,13 @@ function normalizeRemoteEventConfig(rawConfig) {
             ...remoteEvento,
             ceremonia: {
                 ...remoteCeremonia,
-                ubicacionUrl: remoteCeremonia.ubicacionUrl || remoteCeremonia.ubicacion || ''
+                ubicacionUrl: remoteCeremonia.ubicacionUrl || remoteCeremonia.ubicacion || '',
+                wazeUrl: remoteCeremonia.wazeUrl || ''
             },
             recepcion: {
                 ...remoteRecepcion,
-                ubicacionUrl: remoteRecepcion.ubicacionUrl || remoteRecepcion.ubicacion || ''
+                ubicacionUrl: remoteRecepcion.ubicacionUrl || remoteRecepcion.ubicacion || '',
+                wazeUrl: remoteRecepcion.wazeUrl || ''
             }
         }
     };
@@ -97,6 +99,7 @@ function createSiteConfig(remoteConfig) {
                 hora: '3:00 PM',
                 direccion: 'Av. Libertador 1234, San Jose',
                 ubicacionUrl: 'https://maps.google.com/?q=Capilla+San+Jose+Obrero',
+                wazeUrl: '',
                 ...(localEvento.ceremonia || {}),
                 ...(remoteEvento.ceremonia || {})
             },
@@ -106,6 +109,7 @@ function createSiteConfig(remoteConfig) {
                 hora: '6:00 PM',
                 direccion: 'Km 15, Carretera al Mar',
                 ubicacionUrl: 'https://maps.google.com/?q=Finca+Los+Rosales',
+                wazeUrl: '',
                 ...(localEvento.recepcion || {}),
                 ...(remoteEvento.recepcion || {})
             }
@@ -207,8 +211,6 @@ function applySiteConfig() {
     const invitadoMensaje = document.querySelector('.invitado-mensaje');
     if (invitadoMensaje) invitadoMensaje.textContent = SiteConfig.textos.mensajeInvitado;
 
-    applyEventCard('.events-container .event-card:nth-child(1)', SiteConfig.evento.ceremonia);
-    applyEventCard('.events-container .event-card:nth-child(2)', SiteConfig.evento.recepcion);
     applyFooterConfig();
 }
 
@@ -226,29 +228,6 @@ function setMetaContent(name, value) {
     const meta = document.querySelector('meta[name="' + name + '"]');
     if (!meta) return;
     meta.setAttribute('content', value);
-}
-
-function applyEventCard(selector, data) {
-    const card = document.querySelector(selector);
-    if (!card || !data) return;
-
-    const initial = card.querySelector('.event-inicial');
-    const rest = card.querySelector('.event-resto');
-    const titulo = String(data.titulo || '').trim();
-    if (titulo) {
-        if (initial) initial.textContent = titulo.charAt(0);
-        if (rest) rest.textContent = titulo.slice(1);
-    }
-
-    const timeEl = card.querySelector('.event-time');
-    const lugarEl = card.querySelector('.event-lugar');
-    const direccionEl = card.querySelector('.event-direccion');
-    const linkEl = card.querySelector('.btn-location');
-
-    if (timeEl) timeEl.textContent = data.hora || '';
-    if (lugarEl) lugarEl.textContent = data.lugar || '';
-    if (direccionEl) direccionEl.textContent = data.direccion || '';
-    if (linkEl) linkEl.setAttribute('href', data.ubicacionUrl || '#');
 }
 
 function applyFooterConfig() {
@@ -290,7 +269,6 @@ const InvitadoApp = {
         const localGuest = this.getLocalFromURL();
         const remoteGuest = await this.getRemoteGuest(localGuest.id);
         this.data = remoteGuest || localGuest;
-        this.renderSection();
         this.renderRSVP();
         return this.data;
     },
@@ -337,39 +315,6 @@ const InvitadoApp = {
             console.warn('No se pudo cargar invitado remoto. Se usará fallback local:', error);
             return null;
         }
-    },
-
-    renderSection() {
-        const nombreEl = document.getElementById('nombre-invitado');
-
-        if (nombreEl) nombreEl.textContent = this.data.nombre;
-        this.renderPasesText(this.data.pases);
-    },
-
-    renderPasesText(pases) {
-        const lugaresEl = document.querySelector('.invitado-lugares');
-        if (!lugaresEl) return;
-
-        const template = String(SiteConfig.textos.mensajePases || '');
-        if (!template.includes('{pases}')) {
-            lugaresEl.textContent = template;
-            return;
-        }
-
-        const parts = template.split('{pases}');
-        const numeroEl = document.createElement('span');
-        numeroEl.id = 'numero-lugares';
-        numeroEl.textContent = String(pases);
-
-        const textoEl = document.createElement('span');
-        textoEl.id = 'texto-lugares';
-        textoEl.textContent = parts[1] || '';
-
-        lugaresEl.replaceChildren(
-            document.createTextNode(parts[0] || ''),
-            numeroEl,
-            textoEl
-        );
     },
 
     renderRSVP() {
@@ -613,6 +558,8 @@ function initCountdown() {
     const hoursEl = document.getElementById('hours');
     const minutesEl = document.getElementById('minutes');
     const secondsEl = document.getElementById('seconds');
+
+    if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
     
     function updateCountdown() {
         const now = new Date().getTime();
