@@ -1,6 +1,6 @@
 const config = {
     event: {
-        defaultEventId: "misxv-ana-maria-2026",
+        defaultEventId: "misxv-daniella-mazariegos-2026",
         eventIdParam: "eventId",
         legacyFallback: {
             read: false,
@@ -16,15 +16,16 @@ const config = {
     },
 
     seo: {
-        titulo: "Ana María Herrera Morales | Mis XV 2026",
-        descripcion: "Mis Quince Años de Ana María Herrera Morales - 10 de Octubre 2026",
+        titulo: "Daniella Mazariegos | Mis XV 2026",
+        descripcion: "Acompáñanos a celebrar los XV años de Daniella Mazariegos este 23 de mayo de 2026",
+        keywords: "Daniella Mazariegos, Mis XV, XV años, invitación digital, 23 de mayo 2026",
         autor: "Two Design"
     },
 
     pareja: {
-        nombres: "Ana María & Herrera Morales",
-        fecha: "10-10-2026",
-        fechaVisible: "10.10.2026"
+        nombres: "Daniella Mazariegos",
+        fecha: "23-05-2026",
+        fechaVisible: "23.05.2026"
     },
 
     musica: {
@@ -57,7 +58,7 @@ const config = {
     },
 
     footer: {
-        hashtag: "#MisXVanaMaria",
+        hashtag: "#MisXVDaniella",
         instagramUrl: "https://instagram.com/rocio.fernando.boda",
         facebookUrl: "https://facebook.com/rociofernandoboda",
         marcaTexto: "Diseno",

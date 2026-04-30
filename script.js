@@ -247,13 +247,38 @@ function applyFooterConfig() {
 // ============================================
 const GuestConfig = {
     invitados: {
-        "1": { nombre: "María López", pases: 2 },
-        "2": { nombre: "Carlos Méndez", pases: 4 },
-        "3": { nombre: "Andrea Ruiz", pases: 1 },
-        "4": { nombre: "Familia García", pases: 6 },
-        "5": { nombre: "Pedro Sánchez", pases: 2 }
+        "1": { nombre: "Diana Coloma", pases: 1 },
+        "2": { nombre: "Fátima Lopez", pases: 1 },
+        "3": { nombre: "Antonella Rizzo", pases: 1 },
+        "4": { nombre: "Adriana Castellanos", pases: 1 },
+        "5": { nombre: "Emma Ton", pases: 1 },
+        "6": { nombre: "Inés Juárez", pases: 1 },
+        "7": { nombre: "Paula Garcia", pases: 1 },
+        "8": { nombre: "Melissa Mc Farland", pases: 1 },
+        "9": { nombre: "Jannesa Lopez", pases: 1 },
+        "10": { nombre: "Brenda Rivera", pases: 1 },
+        "11": { nombre: "Cecilia Tanchez", pases: 1 },
+        "12": { nombre: "Sahily Castañeda", pases: 1 },
+        "13": { nombre: "Sophia Lambourgh", pases: 1 },
+        "14": { nombre: "Abbie Estrada", pases: 1 },
+        "15": { nombre: "Paula Lone", pases: 1 },
+        "16": { nombre: "Roberto Castro", pases: 1 },
+        "17": { nombre: "Guillermo Bojórquez", pases: 1 },
+        "18": { nombre: "Fernando Mendoza", pases: 1 },
+        "19": { nombre: "Ignacio Valdez", pases: 1 },
+        "20": { nombre: "Anderson Villagran", pases: 1 },
+        "21": { nombre: "Ian Gamarro", pases: 1 },
+        "22": { nombre: "Eliseo Azurdia", pases: 1 },
+        "23": { nombre: "José Fernando Diaz", pases: 1 },
+        "24": { nombre: "José Pablo Chojolan", pases: 1 },
+        "25": { nombre: "Rodrigo Guerra", pases: 1 },
+        "26": { nombre: "Mathew Figueroa", pases: 1 },
+        "27": { nombre: "Nicolás Pérez", pases: 1 },
+        "28": { nombre: "Nicolás Rivera", pases: 1 },
+        "29": { nombre: "Herbert Marroquin", pases: 1 },
+        "30": { nombre: "Ximena Aristondo", pases: 1 }
     },
-    invitadoDefault: { nombre: "Invitado Especial", pases: 2 },
+    invitadoDefault: { nombre: "Invitado Especial", pases: 1 },
     paramId: 'id'
 };
 
@@ -319,6 +344,8 @@ const InvitadoApp = {
 
     renderRSVP() {
         const nameInput = document.getElementById('rsvp-name');
+        const guestNameText = document.getElementById('rsvp-guest-name');
+        const guestPassesText = document.getElementById('rsvp-guest-passes');
         const guestsWrapper = document.getElementById('guest-count-wrapper');
         const guestsSelect = document.getElementById('guest-count');
         const responseYes = document.getElementById('rsvp-response-yes');
@@ -328,6 +355,12 @@ const InvitadoApp = {
         if (nameInput) {
             nameInput.value = this.data.nombre;
             nameInput.readOnly = true;
+        }
+        if (guestNameText) {
+            guestNameText.textContent = this.data.nombre;
+        }
+        if (guestPassesText) {
+            guestPassesText.textContent = totalPases === 1 ? '1 pase' : totalPases + ' pases';
         }
 
         if (guestsSelect) {
@@ -589,7 +622,7 @@ function initCountdown() {
 }
 
 function getEventDateFromConfig() {
-    return new Date('2026-10-10T00:00:00').getTime();
+    return new Date('2026-05-23T00:00:00').getTime();
 }
 
 function initAutoGallery() {
@@ -651,7 +684,7 @@ function initRSVP() {
     const form = document.getElementById('rsvp-form');
     const successMessage = document.getElementById('rsvp-success');
     const finalMessage = document.getElementById('rsvp-final-message');
-    const introMessage = document.querySelector('#rsvp-section .rsvp-intro');
+    const introMessage = document.querySelector('#rsvp-section .rsvp-intro-confirm');
     const submitBtn = document.getElementById('rsvp-submit');
     const responseYes = document.getElementById('rsvp-response-yes');
     const responseNo = document.getElementById('rsvp-response-no');
