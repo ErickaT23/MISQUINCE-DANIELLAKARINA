@@ -587,7 +587,6 @@ a {
     width: clamp(98px, 20vw, 150px);
     filter: drop-shadow(0 12px 24px rgba(76, 108, 116, 0.26));
     margin-top: -140px;
-    margin-left: 70%;
 }
 
 .hero-meta-hidden {
