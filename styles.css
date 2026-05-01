@@ -341,7 +341,6 @@ a {
     animation: heroTextShimmer 4.2s ease-in-out .35s infinite, portadaNombreZoom .8s cubic-bezier(.22, .61, .36, 1) .35s both;
     padding: 10px;
     font-weight: 400;
-    margin-top: -50px;
     text-align: end;
     margin-right: 5%;
 }
@@ -368,7 +367,7 @@ a {
 
 .hero-open-quote{
     padding: 15px;
-    margin-top: -20px;
+    margin-top: 5px;
 }
 
 .hero-open-bible{
