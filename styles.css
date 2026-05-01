@@ -53,6 +53,17 @@
     animation: none !important;
 }
 
+.event-titulo,
+.media-share-title,
+.wishes-title,
+.rsvp-title,
+.rsvp-guest-data,
+.countdown-ocean-parent,
+.countdown-ocean-and {
+    font-family: "Rouge Script", cursive !important;
+    font-style: normal !important;
+}
+
 *,
 *::before,
 *::after {
@@ -317,7 +328,7 @@ a {
 .hero-open-name {
     margin: 2px 0 4px;
     font-family: var(--cursive);
-    font-size: 55px;
+    font-size: 59px;
     line-height: .95;
     letter-spacing: .01em;
     background: linear-gradient(120deg, #06778b 0%, #16879b 28%, #7dc7d3 50%, #1a8da2 72%, #06778b 100%);
@@ -331,6 +342,8 @@ a {
     padding: 10px;
     font-weight: 400;
     margin-top: -50px;
+    text-align: end;
+    margin-right: 5%;
 }
 
 .hero-open-quote,
@@ -350,6 +363,7 @@ a {
     font-size: 14px;
     letter-spacing: .01em;
     filter: drop-shadow(0 0 7px rgba(245, 243, 238, 0.14));
+    text-align: left;
 }
 
 .hero-open-quote{
@@ -573,6 +587,7 @@ a {
     width: clamp(98px, 20vw, 150px);
     filter: drop-shadow(0 12px 24px rgba(76, 108, 116, 0.26));
     margin-top: -140px;
+    margin-left: 70%;
 }
 
 .hero-meta-hidden {
@@ -982,6 +997,10 @@ a {
     backdrop-filter: none;
     box-shadow: none;
     padding: 10px 8px;
+}
+
+#gift .event-direction p{
+    padding: 10px;
 }
 
 #events .event-icon,
