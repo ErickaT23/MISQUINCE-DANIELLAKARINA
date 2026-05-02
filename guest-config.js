@@ -71,7 +71,7 @@ window.GuestConfig = {
         "69": { nombre: "Nitza Altamirano, Andres Irungaray", pases: 2 },
         "70": { nombre: "Ricardo Arreola, Wendy Palala, Ernesto Arreola, Camila Arreola", pases: 4 },
         "71": { nombre: "Israel Iquik, Brenda Cojon", pases: 2 },
-        "72": { nombre: "Miquel Herrera, Elfa Merida, Cesar Herrera, Maria Fernanda Herrera 4", pases: 4 },
+        "72": { nombre: "Miquel Herrera, Elfa Merida, Cesar Herrera, Maria Fernanda Herrera", pases: 4 },
         "73": { nombre: "Gilberto Reyes, Ely Merida de Reyes", pases: 2 },
         "74": { nombre: "Lilian Merida y fam.", pases: 3 },
         "75": { nombre: "Wellington Merida y fam.", pases: 5 },
