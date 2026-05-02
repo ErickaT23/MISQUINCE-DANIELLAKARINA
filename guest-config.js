@@ -36,7 +36,7 @@ window.GuestConfig = {
         "34": { nombre: "Adriana Castellanos", pases: 1 },
         "35": { nombre: "Rony Granados,Sofia De Granados Rony Granados Rodrigo Granados", pases: 4 },
         "36": { nombre: "Fernando Granados,Dorian De Granados,Josue Granados,Pablo Granados,Samuel Granados", pases: 5 },
-        "37": { nombre: "Otoniel Granados Reyna De Granados", pases: 2 },
+        "37": { nombre: "Otoniel Granados y Reyna De Granados", pases: 2 },
         "38": { nombre: "Daniela Gomez", pases: 1 },
         "39": { nombre: "Maribel Matias", pases: 1 },
         "40": { nombre: "Lucero Castañeda,Gerardo Reyes", pases: 2 },
