@@ -1030,20 +1030,61 @@ async function syncGuestConfigToEventOnce(arg1, arg2, arg3) {
   }
 
   const currentGuests = await getInvitados(eventId);
-  const existingIds = new Set(
-    (Array.isArray(currentGuests) ? currentGuests : []).map(function (guest) {
-      return sanitizeFirebaseKey(guest && (guest.id || guest._key));
+  const existingById = new Map(
+    (Array.isArray(currentGuests) ? currentGuests : [])
+      .map(function (guest) {
+        const safeId = sanitizeFirebaseKey(guest && (guest.id || guest._key));
+        return safeId ? [safeId, guest] : null;
+      })
+      .filter(Boolean)
+  );
+
+  const guestsToUpsert = guests.filter(function (guest) {
+    const safeGuestId = sanitizeFirebaseKey(guest && guest.id);
+    return Boolean(safeGuestId);
+  });
+  const localGuestIdSet = new Set(
+    guestsToUpsert.map(function (guest) {
+      return sanitizeFirebaseKey(guest.id);
     }).filter(Boolean)
   );
 
-  const guestsToInsert = guests.filter(function (guest) {
-    const safeGuestId = sanitizeFirebaseKey(guest && guest.id);
-    return safeGuestId && !existingIds.has(safeGuestId);
+  const guestsToDeactivate = [];
+  existingById.forEach(function (guest, safeGuestId) {
+    if (localGuestIdSet.has(safeGuestId)) return;
+
+    const currentActive = typeof guest.activo === "undefined" ? true : Boolean(guest.activo);
+    if (!currentActive) return;
+
+    guestsToDeactivate.push({
+      safeGuestId,
+      guest
+    });
   });
 
-  if (!dryRun && guestsToInsert.length > 0) {
+  let insertedCount = 0;
+  let updatedCount = 0;
+  const insertedGuestIds = [];
+  const updatedGuestIds = [];
+  const deactivatedGuestIds = guestsToDeactivate.map(function (entry) {
+    const guest = entry && entry.guest;
+    return String((guest && (guest.id || guest._key)) || entry.safeGuestId || "").trim();
+  }).filter(Boolean);
+
+  guestsToUpsert.forEach(function (guest) {
+    const safeGuestId = sanitizeFirebaseKey(guest.id);
+    if (!existingById.has(safeGuestId)) {
+      insertedCount += 1;
+      insertedGuestIds.push(String(guest.id));
+      return;
+    }
+    updatedCount += 1;
+    updatedGuestIds.push(String(guest.id));
+  });
+
+  if (!dryRun && guestsToUpsert.length > 0) {
     await Promise.all(
-      guestsToInsert.map(function (guest) {
+      guestsToUpsert.map(function (guest) {
         const safeGuestId = sanitizeFirebaseKey(guest.id);
         const idText = String(guest.id || "").trim();
         const idValue = /^\d+$/.test(idText) ? Number(idText) : idText;
@@ -1052,6 +1093,22 @@ async function syncGuestConfigToEventOnce(arg1, arg2, arg3) {
           nombre: String(guest.nombre || "").trim(),
           pases: Math.max(1, Number(guest.pases) || 1),
           activo: typeof guest.activo === "undefined" ? true : Boolean(guest.activo)
+        });
+      })
+    );
+  }
+
+  if (!dryRun && guestsToDeactivate.length > 0) {
+    await Promise.all(
+      guestsToDeactivate.map(function (entry) {
+        const guest = entry.guest || {};
+        const safeGuestId = entry.safeGuestId;
+        const currentId = String((guest.id || guest._key || safeGuestId) || "").trim() || safeGuestId;
+        return set(ref(db, getEventInvitadosPath(eventId) + "/" + safeGuestId), {
+          id: /^\d+$/.test(currentId) ? Number(currentId) : currentId,
+          nombre: sanitizeText(guest.nombre) || "Invitado",
+          pases: Math.max(1, Number(guest.pases) || 1),
+          activo: false
         });
       })
     );
@@ -1070,11 +1127,14 @@ async function syncGuestConfigToEventOnce(arg1, arg2, arg3) {
     source: sourceInfo.sourceLabel,
     previouslySyncedAt: alreadySyncedAt || null,
     totalLocal: guests.length,
-    totalExisting: existingIds.size,
-    inserted: guestsToInsert.length,
-    insertedGuestIds: guestsToInsert.map(function (guest) {
-      return String(guest.id);
-    })
+    totalExisting: existingById.size,
+    upserted: guestsToUpsert.length,
+    inserted: insertedCount,
+    updated: updatedCount,
+    deactivated: guestsToDeactivate.length,
+    insertedGuestIds,
+    updatedGuestIds,
+    deactivatedGuestIds
   };
 }
 
