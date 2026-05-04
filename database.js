@@ -537,6 +537,13 @@ function createAlreadyConfirmedError(existingData) {
   return error;
 }
 
+function createGuestInactiveError(guestData) {
+  const error = new Error("RSVP_GUEST_INACTIVE");
+  error.code = "RSVP_GUEST_INACTIVE";
+  error.guestData = guestData || null;
+  return error;
+}
+
 async function saveConfirmationWithTransaction(targetRef, record) {
   const transactionResult = await runTransaction(
     targetRef,
@@ -582,6 +589,10 @@ async function saveConfirmation(arg1, arg2) {
   const eventId = parsed.eventId;
   const payload = parsed.payload;
   const guestId = String((payload && payload.id) || "").trim() || "default";
+  const guestData = await getInvitadoById(eventId, guestId);
+  if (guestData && guestData.activo === false) {
+    throw createGuestInactiveError(guestData);
+  }
   const record = {
     id: guestId,
     nombre: String((payload && payload.nombre) || ""),

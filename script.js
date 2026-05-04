@@ -832,6 +832,13 @@ function initRSVP() {
 
     const guestData = InvitadoApp.getData() || {};
     const guestId = String(guestData.id || 'default');
+    const isGuestActive = typeof guestData.activo === 'undefined' ? true : Boolean(guestData.activo);
+
+    if (!isGuestActive) {
+        setFormLocked(true);
+        showPopup('Tu invitacion esta desactivada. Contacta a los anfitriones para apoyo.', true);
+        return;
+    }
 
     async function checkConfirmedStatusOnLoad() {
         isCheckingStatus = true;
@@ -907,6 +914,12 @@ function initRSVP() {
             applyConfirmedState(savedRecord);
             showPopup(confirmationMessages[respuesta]);
         } catch (error) {
+            if (error && error.code === 'RSVP_GUEST_INACTIVE') {
+                setFormLocked(true);
+                showPopup('Tu invitacion esta desactivada. Contacta a los anfitriones para apoyo.', true);
+                return;
+            }
+
             if (error && error.code === 'RSVP_ALREADY_CONFIRMED') {
                 const existingRecord = (error.existingData && error.existingData.confirmado)
                     ? error.existingData
