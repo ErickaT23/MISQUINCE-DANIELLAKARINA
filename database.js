@@ -1012,6 +1012,7 @@ async function syncGuestConfigToEventOnce(arg1, arg2, arg3) {
   const options = parsed.options || {};
   const force = Boolean(options.force);
   const dryRun = Boolean(options.dryRun);
+  const deactivateMissing = false;
   const storageKey = getGuestsSyncStorageKey(eventId);
 
   const alreadySyncedAt = readLocalStorage(storageKey);
@@ -1050,17 +1051,19 @@ async function syncGuestConfigToEventOnce(arg1, arg2, arg3) {
   );
 
   const guestsToDeactivate = [];
-  existingById.forEach(function (guest, safeGuestId) {
-    if (localGuestIdSet.has(safeGuestId)) return;
+  if (deactivateMissing) {
+    existingById.forEach(function (guest, safeGuestId) {
+      if (localGuestIdSet.has(safeGuestId)) return;
 
-    const currentActive = typeof guest.activo === "undefined" ? true : Boolean(guest.activo);
-    if (!currentActive) return;
+      const currentActive = typeof guest.activo === "undefined" ? true : Boolean(guest.activo);
+      if (!currentActive) return;
 
-    guestsToDeactivate.push({
-      safeGuestId,
-      guest
+      guestsToDeactivate.push({
+        safeGuestId,
+        guest
+      });
     });
-  });
+  }
 
   let insertedCount = 0;
   let updatedCount = 0;
@@ -1123,6 +1126,7 @@ async function syncGuestConfigToEventOnce(arg1, arg2, arg3) {
     skipped: false,
     dryRun,
     forced: force,
+    deactivateMissing,
     eventId,
     source: sourceInfo.sourceLabel,
     previouslySyncedAt: alreadySyncedAt || null,
@@ -1140,6 +1144,17 @@ async function syncGuestConfigToEventOnce(arg1, arg2, arg3) {
 
 async function autoSyncGuestConfigToFirebase() {
   try {
+    const isAutoSyncEnabled = Boolean(
+      window
+      && window.config
+      && window.config.event
+      && window.config.event.autoSyncGuests === true
+    );
+
+    if (!isAutoSyncEnabled) {
+      return { ok: true, skipped: true, reason: "auto-sync-disabled" };
+    }
+
     const hasLocalGuestConfig = Boolean(
       window
       && window.GuestConfig
@@ -1152,7 +1167,7 @@ async function autoSyncGuestConfigToFirebase() {
     }
 
     const eventId = resolveEventId();
-    return await syncGuestConfigToEventOnce(eventId);
+    return await syncGuestConfigToEventOnce(eventId, undefined, { deactivateMissing: false });
   } catch (error) {
     console.warn("No se pudo sincronizar invitados locales automaticamente:", error);
     return { ok: false, skipped: true, reason: "auto-sync-error", error };
