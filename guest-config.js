@@ -53,7 +53,7 @@ window.GuestConfig = {
         "51": { nombre: "Claudio Mazariegos, Lizzy Rodriguez, Rodrigo Mazariegos, Camila Mazariegos", pases: 4 },
         "52": { nombre: "Javier Marroquin", pases: 1 },
         "53": { nombre: "Julio Mazariegos,Maribel De Mazariegos", pases: 2 },
-        "54": { nombre: "Estuardo Castillo,Kenia Oliva, Julian Castillo,", pases: 3 },
+        "54": { nombre: "Estuardo Castillo,Kenia Oliva, Julian Castillo, Estuardo Castillo", pases: 4 },
         "55": { nombre: "Omar Vazquez, Myriam Mazariegos,Alvaro Vazquez", pases: 3 },
         "56": { nombre: "Jorge Mazariegos Rodriguez, Eunice Rodriguez", pases: 1 },
         "57": { nombre: "Jorge Mazariegos, Andres Mazariegos, Natalia Mazariegos", pases: 3 },
