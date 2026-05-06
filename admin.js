@@ -1268,7 +1268,7 @@
 
         const nombre = String(nameInput && nameInput.value || "").trim();
         const pases = Number(pasesInput && pasesInput.value);
-        const activo = Boolean(activeInput && activeInput.checked);
+        const activo = activeInput ? Boolean(activeInput.checked) : true;
 
         if (!nombre) {
             setInviteFormMessage("El nombre es obligatorio.", true);
@@ -1278,6 +1278,17 @@
         if (!Number.isInteger(pases) || pases < 1) {
             setInviteFormMessage("El número de pases debe ser mayor o igual a 1.", true);
             return;
+        }
+
+        if (state.invitadosMap.size === 0 && typeof state.db.getInvitados === "function") {
+            try {
+                const freshGuests = await state.db.getInvitados(state.eventId);
+                if (Array.isArray(freshGuests) && freshGuests.length > 0) {
+                    state.invitadosMap = mapInvitados(freshGuests);
+                }
+            } catch (fetchErr) {
+                console.warn("No se pudo cargar invitados frescos para generar ID:", fetchErr);
+            }
         }
 
         const payload = {

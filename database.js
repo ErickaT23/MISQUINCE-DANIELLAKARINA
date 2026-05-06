@@ -1028,6 +1028,16 @@ async function syncGuestConfigToEventOnce(arg1, arg2, arg3) {
 
   const alreadySyncedAt = readLocalStorage(storageKey);
 
+  if (alreadySyncedAt && !force) {
+    return {
+      ok: true,
+      skipped: true,
+      reason: "already-synced",
+      eventId,
+      syncedAt: alreadySyncedAt
+    };
+  }
+
   const sourceInfo = resolveLocalGuestsSource(eventId, parsed.localSource);
   const guests = normalizeLocalGuestsSource(sourceInfo.source);
 

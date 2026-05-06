@@ -266,9 +266,20 @@ const InvitadoApp = {
     data: null,
 
     async init() {
+        const rawId = String(new URLSearchParams(window.location.search).get(GuestConfig.paramId) || '').trim();
         const localGuest = this.getLocalFromURL();
         const remoteGuest = await this.getRemoteGuest(localGuest.id);
-        this.data = remoteGuest || localGuest;
+
+        const hasExplicitId = Boolean(rawId);
+        const isKnownLocally = Boolean(GuestConfig.invitados[rawId]);
+        const isKnownRemotely = remoteGuest !== null;
+
+        if (hasExplicitId && !isKnownLocally && !isKnownRemotely) {
+            this.data = { ...localGuest, activo: false, _notFound: true };
+        } else {
+            this.data = remoteGuest || localGuest;
+        }
+
         this.renderRSVP();
         return this.data;
     },
@@ -836,7 +847,10 @@ function initRSVP() {
 
     if (!isGuestActive) {
         setFormLocked(true);
-        showPopup('Tu invitacion esta desactivada. Contacta a los anfitriones para apoyo.', true);
+        const inactiveMsg = guestData._notFound
+            ? 'Esta invitación no es válida. Contacta a los anfitriones.'
+            : 'Tu invitación ha sido desactivada. Contacta a los anfitriones para apoyo.';
+        showPopup(inactiveMsg, true);
         return;
     }
 
